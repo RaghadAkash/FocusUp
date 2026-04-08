@@ -13,7 +13,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function (){
-    Route::apiResource('rooms',RoomController::class);
+    //Route::apiResource('rooms',RoomController::class);
     Route::apiResource('tables',TableController::class);
     Route::apiResource('packages',PackageController::class);
     Route::get('/bookings', [BookingController::class, 'index']);
@@ -24,7 +24,14 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('/bookings/check_out', [BookingController::class, 'checkOut']);
 
     Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel']);
-});
 
+
+
+    Route::get('/rooms', [RoomController::class, 'index'])
+        ->middleware('can:room.index');
+
+    Route::post('/rooms', [RoomController::class, 'store'])
+        ->middleware('can:room.create');
+});
 
 
